@@ -13,6 +13,7 @@ class Serviceitem extends Model
         'service_id',
         'user_id',
         'tanggal',
+        'status',
         'home_pickup',
         'no_polisi',
         'mobil',

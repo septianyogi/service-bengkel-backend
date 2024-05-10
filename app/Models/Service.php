@@ -20,7 +20,7 @@ class Service extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function servicetanggal(): HasMany
+    public function serviceByTanggal(): HasMany
     {
         return $this->hasMany(Serviceitem::class, 'tanggal', 'tanggal');
     }
