@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Return_;
 
 class ServiceController extends Controller
 {
-    public function createService(Request $request)
+    public function create(Request $request)
     {
         $request->validate([
             'tanggal' => 'required',
@@ -54,13 +54,13 @@ class ServiceController extends Controller
         return $this->responseOk(ServiceResource::collection($service->loadMissing('serviceByTanggal')));
     }
 
-    public function deleteService($id)
+    public function delete($id)
     {
         $serviceItem = Serviceitem::findOrFail($id);
         $tanggal = $serviceItem->tanggal;
 
         $serviceItem->delete();
-        
+
         $tanggalService = Serviceitem::where('tanggal', $tanggal)->count();
 
         if($tanggalService == 0){
