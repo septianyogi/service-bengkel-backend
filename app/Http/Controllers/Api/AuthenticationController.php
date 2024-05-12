@@ -20,7 +20,7 @@ class AuthenticationController extends Controller
             'alamat' => 'required',
             'no' => 'required',
             'role' => 'required',
-            'password' => 'required'
+            'password' => 'required|min:8'
         ]);
 
         $password = Hash::make($request->password);
@@ -69,8 +69,21 @@ class AuthenticationController extends Controller
         ];
     }
 
-    public function user()
+    public function profile()
     {
-        return response()->json(Auth::user());
+        return $this->responseOk(Auth::user(),'profile data');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'password' => 'min:8'
+        ]);
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        $user->update($request->all());
+
+        return $this->responseOk($user, 'Update berhasil');
     }
 }

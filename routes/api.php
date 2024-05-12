@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\Route;
 
 
 //Authentication
-Route::post('/login', [AuthenticationController::class, 'login']);
-Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [AuthenticationController::class, 'register']);
+Route::post('/login', [AuthenticationController::class, 'login']);
+Route::middleware(['auth:sanctum'])->group(function(){
+    Route::post('/logout', [AuthenticationController::class, 'logout']);
+    Route::get('/profile', [AuthenticationController::class, 'profile']);
+    Route::patch('/profile/update', [AuthenticationController::class, 'updateProfile']);
+});
+
+
 
 Route::middleware(['auth:sanctum'])->group(function(){
     //service
