@@ -53,4 +53,21 @@ class ServiceController extends Controller
 
         return $this->responseOk(ServiceResource::collection($service->loadMissing('serviceByTanggal')));
     }
+
+    public function deleteService($id)
+    {
+        $serviceItem = Serviceitem::findOrFail($id);
+        $tanggal = $serviceItem->tanggal;
+
+        $serviceItem->delete();
+        
+        $tanggalService = Serviceitem::where('tanggal', $tanggal)->count();
+
+        if($tanggalService == 0){
+            Service::where('tanggal', $serviceItem->tanggal)->delete();
+        }
+
+        return $this->responseOk(null, 'data berhasil dihapus');
+ 
+    }
 }

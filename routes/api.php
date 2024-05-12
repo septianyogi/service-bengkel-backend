@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-
+//Authentication
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [AuthenticationController::class, 'register']);
@@ -16,4 +16,5 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/service/create', [ServiceController::class, 'createService']);
     Route::get('/service/show/user', [ServiceController::class, 'showByUser']);
     Route::get('/service/show/tanggal', [ServiceController::class, 'showByTanggal']);
+    Route::delete('/service/delete/{id}', [ServiceController::class, 'deleteService']);
 });
