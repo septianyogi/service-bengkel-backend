@@ -47,7 +47,6 @@ class OrderController extends Controller
 
     public function pembayaran(Request $request, $id)
     {
-
         if($request->file){
             $filename = $this->generateRandomString();
             $extension = $request->file->extension();
@@ -61,8 +60,25 @@ class OrderController extends Controller
         $ordertitem = Orderitem::where('id', $id)->first();
         $ordertitem->update($request->all());
 
-
         return $this->responseOk($ordertitem, 'file berhasil diupload');
+    }
+
+    public function konfirmasiOrder(Request $request, $id)
+    {
+        $request['status'] = 'pembayaran terkonfirmasi';
+        $orderitem = Orderitem::where('id', $id)->first();
+        $orderitem->update($request->all());
+        
+        return $this->responseOk($orderitem, 'Data berhasil diupdate');
+    }
+
+    public function orderDikirim(Request $request, $id)
+    {
+        $request['status'] = 'order dikirim';
+        $orderitem = Orderitem::where('id', $id)->first();
+        $orderitem->update($request->all());
+        
+        return $this->responseOk($orderitem, 'Data berhasil diupdate');
     }
 
     function generateRandomString($length = 30) {
