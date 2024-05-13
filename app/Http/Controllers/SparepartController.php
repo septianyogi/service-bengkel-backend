@@ -20,6 +20,7 @@ class SparepartController extends Controller
         return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
     }
 
+
     public function get()
     {
         $sparepart = Sparepart::all();
@@ -42,5 +43,21 @@ class SparepartController extends Controller
         } else {
             return $this->responseOk(null, 'Data tidak ditemukan');
         }    
+    }
+
+    public function update(Request $request, $id) 
+    {
+        $sparepart = Sparepart::findOrFail($id);
+        $sparepart->update($request->all());
+
+        return $this->responseOk($sparepart, 'Data berhasil diubah');
+    }
+
+    public function delete($id)
+    {
+        $sparepart = Sparepart::findOrFail($id);
+        $sparepart->delete();
+
+        return $this->responseOk($sparepart, 'Data berhasil dihapus');
     }
 }

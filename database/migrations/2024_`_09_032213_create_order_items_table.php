@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('tanggal');
             $table->string('status');
-            $table->string('pembayaran');
+            $table->string('pembayaran')->nullable();
             $table->unsignedBigInteger('sparepart_id');
             $table->integer('jumlah');
             $table->integer('harga');

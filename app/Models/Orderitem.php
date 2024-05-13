@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Orderdetail extends Model
+class Orderitem extends Model
 {
     use HasFactory;
 
@@ -16,6 +16,7 @@ class Orderdetail extends Model
         'user_id',
         'alamat',
         'tanggal',
+        'status',
         'pembayaran',
         'sparepart_id',
         'jumlah',

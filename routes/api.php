@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\SparepartController;
 use Illuminate\Http\Request;
@@ -28,8 +29,16 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     //Sparepart
     Route::post('/sparepart/create', [SparepartController::class, 'create']);
+    // Route::patch('/sparepart/addStock/{id}', [SparepartController::class, 'addStock']);
     Route::get('/sparepart/get', [SparepartController::class, 'get']);
     Route::get('/sparepart/search/{name}', [SparepartController::class, 'searchSparepart']);
     Route::patch('/sparepart/update/{id}', [SparepartController::class, 'update']);
     Route::delete('/sparepart/delete/{id}', [SparepartController::class, 'delete']);
+
+
+    //Penjualan
+    Route::post('/order/create/{id}', [OrderController::class, 'createOrder']);
+    Route::post('/order/pembayaran/{id}', [OrderController::class, 'pembayaran']);
+    Route::patch('/order/konfirmasi', [OrderController::class, 'konfirmasiOrder']);
+    Route::delete('/order/delete/{id}', [OrderController::class, 'delete']);
 });
