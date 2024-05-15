@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use App\Models\Order;
-use App\Models\Orderitem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Sparepart;
@@ -13,6 +12,24 @@ use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
+
+    Public function getAll()
+    {
+        $orderitem = Order::all();
+
+        return $this->responseOk($orderitem, 'data berhasi ditampilkan');
+    }
+
+
+    public function getByUser()
+    {
+        $user = Auth::user()->id;
+        $order = Order::where('user_id', $user)->get();
+
+        return $this->responseOk($order, 'data berhasil ditampilkan');
+
+    }
+
     public function createOrder(Request $request, $id)
     {
         $request->validate([
@@ -34,13 +51,8 @@ class OrderController extends Controller
         $totalHarga = $request->jumlah * $harga;
         $request['total_harga'] = $totalHarga;
 
-        $order = Order::where('id', $user)->first();
 
-        if(!$order){
-            Order::create($request->all());
-        }
-
-        $orderitem = Orderitem::create($request->all());
+        $orderitem = Order::create($request->all());
 
         return $this->responseOk($orderitem, 'Data berhasil ditambahkan');
     }
@@ -57,28 +69,28 @@ class OrderController extends Controller
 
         $request['pembayaran'] = $imageName;
         $request['status'] = 'sudah membayar';
-        $ordertitem = Orderitem::where('id', $id)->first();
+        $ordertitem = Order::where('id', $id)->first();
         $ordertitem->update($request->all());
 
         return $this->responseOk($ordertitem, 'file berhasil diupload');
     }
 
-    public function konfirmasiOrder(Request $request, $id)
+    public function konfirmasi(Request $request, $id)
     {
-        $request['status'] = 'pembayaran terkonfirmasi';
-        $orderitem = Orderitem::where('id', $id)->first();
-        $orderitem->update($request->all());
-        
-        return $this->responseOk($orderitem, 'Data berhasil diupdate');
+        $order = Order::where('id', $id)->first();
+        $order->update($request->all());
+
+        return $this->responseOk($order, 'status diupdate');
     }
 
-    public function orderDikirim(Request $request, $id)
+    Public function delete($id)
     {
-        $request['status'] = 'order dikirim';
-        $orderitem = Orderitem::where('id', $id)->first();
-        $orderitem->update($request->all());
-        
-        return $this->responseOk($orderitem, 'Data berhasil diupdate');
+        $orderitem = Order::where('id', $id)->first();
+        $user = $orderitem->user_id;
+        $orderitem->delete();
+
+        return $this->responseOk($orderitem, 'Order berhasil dihapus');
+
     }
 
     function generateRandomString($length = 30) {

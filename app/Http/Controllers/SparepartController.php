@@ -16,8 +16,21 @@ class SparepartController extends Controller
             'harga' => 'required'
         ]);
 
-        $sparepart = Sparepart::create($request->all());
-        return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
+        $newsparepart = $request->nama;
+        $currentsparepart = Sparepart::where('nama', $newsparepart)->first();
+
+        if(!$currentsparepart){
+            $sparepart = Sparepart::create($request->all());
+
+            return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
+        } else {
+            $stock = $currentsparepart->jumlah_stock;
+            $newstock = $stock + $request->jumlah_stock;
+
+            $sparepart = $currentsparepart->update(['jumlah_stock' => $newstock]);
+            
+            return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
+        }
     }
 
 

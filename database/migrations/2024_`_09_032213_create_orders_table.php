@@ -12,11 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->id('order_id');
             $table->unsignedBigInteger('user_id');
+            $table->string('alamat');
+            $table->string('tanggal');
+            $table->string('status');
+            $table->string('pembayaran')->nullable();
+            $table->unsignedBigInteger('sparepart_id');
+            $table->integer('jumlah');
+            $table->integer('harga');
+            $table->integer('total_harga');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('sparepart_id')->references('id')->on('spareparts');
         });
     }
 

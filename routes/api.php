@@ -37,9 +37,10 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
 
     //Penjualan
+    Route::get('/order/getAll', [OrderController::class, 'getAll']);
+    ROute::get('/order/getByUser', [OrderController::class, 'getByUser']);
     Route::post('/order/create/{id}', [OrderController::class, 'createOrder']);
     Route::post('/order/pembayaran/{id}', [OrderController::class, 'pembayaran']);
-    Route::patch('/order/konfirmasi/{id}', [OrderController::class, 'konfirmasiOrder']);
-    Route::patch('/order/dikirim/{id}', [OrderController::class, 'orderDikirim']);
+    Route::patch('/order/konfirmasi/{id}', [OrderController::class, 'konfirmasi']);
     Route::delete('/order/delete/{id}', [OrderController::class, 'delete']);
 });
