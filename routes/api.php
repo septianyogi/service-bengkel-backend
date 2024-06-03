@@ -13,17 +13,16 @@ Route::post('/register', [AuthenticationController::class, 'register']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout', [AuthenticationController::class, 'logout']);
-    Route::get('/profile', [AuthenticationController::class, 'profile']);
+    Route::get('/profile/{id}', [AuthenticationController::class, 'profile']);
     Route::patch('/profile/update', [AuthenticationController::class, 'updateProfile']);
 });
-
-
 
 Route::middleware(['auth:sanctum'])->group(function(){
     //service
     Route::post('/service/create', [ServiceController::class, 'create']);
-    Route::get('/service/show/user', [ServiceController::class, 'showByUser']);
-    Route::get('/service/show/tanggal', [ServiceController::class, 'showByTanggal']);
+    Route::get('/service/show/user/{id}', [ServiceController::class, 'showByUser']);
+    Route::get('/service/show/all', [ServiceController::class, 'showByTanggal']);
+    Route::patch('/service/updateStatus/{id}', [ServiceController::class, 'updateStatus']);
     Route::delete('/service/delete/{id}', [ServiceController::class, 'delete']);
 
 

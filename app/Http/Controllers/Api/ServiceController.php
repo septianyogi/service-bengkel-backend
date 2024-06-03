@@ -40,18 +40,25 @@ class ServiceController extends Controller
 
     }    
 
-    public function showByUser()
+    public function showByUser($id)
     {
-        $service = Serviceitem::where('user_id', Auth::user()->id)->get();
+        $service = Serviceitem::where('user_id', $id)->get();
 
         return $this->responseOk($service);
     }
 
     public function showByTanggal()
     {
-        $service = Service::all();
+        $service = Serviceitem::all();
 
-        return $this->responseOk(ServiceResource::collection($service->loadMissing('serviceByTanggal')));
+        return $this->responseOk($service);
+    }
+
+    public function updateStatus(Request $request, $id) {
+        $service = Serviceitem::where('id', $id)->first();
+        $service->update($request->all());
+
+        return $this->responseOk($service, 'status diupdate');
     }
 
     public function delete($id)

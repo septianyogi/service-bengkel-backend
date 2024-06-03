@@ -19,8 +19,10 @@ class Serviceitem extends Model
         'mobil',
         'jenis_service',
         'keluhan',
-        'lat',
-        'lng'
+        'alamat',
+        'latlng',
+        'sparepart',
+        'biaya'
     ];
 
     /**

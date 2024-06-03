@@ -49,9 +49,11 @@ class AuthenticationController extends Controller
             return $this->responseError('the provided credentials are invalid');
         }
 
+        $role = $user->role;
+
         $token = $user->createToken('user login')->plainTextToken;
 
-        return $this->responseOk($this->respondWithToken($token), 'login berhasil',);
+        return $this->responseOk($this->respondWithToken($user, $role,  $token), 'login berhasil',);
     }
 
     public function logout(Request $request)
@@ -61,17 +63,19 @@ class AuthenticationController extends Controller
         return $this->responseOk(null, 'Logout berhasil');
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($user,$role, $token)
     {
         return [
-            'user' => auth()->user(),
+            'user' => $user,
+            'role' => $role,
             'token' => $token
         ];
     }
 
-    public function profile()
+    public function profile($id)
     {
-        return $this->responseOk(Auth::user(),'profile data');
+        $user = User::where('id', $id)->first();
+        return $this->responseOk($user,'profile data');
     }
 
     public function updateProfile(Request $request)
