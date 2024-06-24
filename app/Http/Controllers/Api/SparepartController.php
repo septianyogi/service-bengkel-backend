@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Sparepart;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SparepartController extends Controller
 {
@@ -54,7 +55,7 @@ class SparepartController extends Controller
         if(count($sparepart) > 0) {
             return $this->responseOk($sparepart,'search ditemukan');
         } else {
-            return $this->responseOk(null, 'Data tidak ditemukan');
+            return $this->responseError('Data tidak ditemukan');
         }    
     }
 

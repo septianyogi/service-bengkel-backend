@@ -5,16 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sparepart extends Model
+class CategoryService extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'kode',
+    protected $fillable =[
         'nama',
-        'tipe',
-        'keterangan',
-        'jumlah_stock',
-        'harga'
+        'keterangan'
     ];
 }

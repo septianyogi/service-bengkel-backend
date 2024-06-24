@@ -1,23 +1,38 @@
 <?php
 
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ServiceController;
-use App\Http\Controllers\SparepartController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\SparepartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 //Authentication
 Route::post('/register', [AuthenticationController::class, 'register']);
+Route::get('/profile/{id}', [AuthenticationController::class, 'profile']);
 Route::post('/login', [AuthenticationController::class, 'login']);
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout', [AuthenticationController::class, 'logout']);
-    Route::get('/profile/{id}', [AuthenticationController::class, 'profile']);
+    // Route::get('/profile/{id}', [AuthenticationController::class, 'profile']);
     Route::patch('/profile/update', [AuthenticationController::class, 'updateProfile']);
+
+    //category
+    Route::get('/category', [CategoryController::class, 'get']);
+    Route::post('/category/add', [CategoryController::class, 'add']);
+    Route::delete('/category/delete/{id}', [CategoryController::class, 'delete']);
+    
 });
 
 Route::middleware(['auth:sanctum'])->group(function(){
+
+    //mobil
+    Route::post('/car/add', [CarController::class, 'add']);
+    Route::get('/car/get', [CarController::class, 'get']);
+
+
     //service
     Route::post('/service/create', [ServiceController::class, 'create']);
     Route::get('/service/show/user/{id}', [ServiceController::class, 'showByUser']);
