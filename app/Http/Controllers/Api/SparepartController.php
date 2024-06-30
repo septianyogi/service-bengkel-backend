@@ -11,6 +11,7 @@ class SparepartController extends Controller
     public function create(Request $request)
     {
         $request->validate([
+            'kode' => 'required',
             'nama' => 'required',
             'tipe' => 'required',
             'jumlah_stock' => 'required',
@@ -20,16 +21,17 @@ class SparepartController extends Controller
         $newsparepart = $request->nama;
         $currentsparepart = Sparepart::where('nama', $newsparepart)->first();
 
-        if(!$currentsparepart){
-            $sparepart = Sparepart::create($request->all());
-
-            return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
-        } else {
+        if($currentsparepart){
             $stock = $currentsparepart->jumlah_stock;
             $newstock = $stock + $request->jumlah_stock;
 
             $sparepart = $currentsparepart->update(['jumlah_stock' => $newstock]);
             
+            return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
+        } else {
+            $sparepart = Sparepart::create($request->all());
+
+
             return $this->responseOk($sparepart, 'sparepart berhasil ditambah');
         }
     }
